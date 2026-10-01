@@ -4,16 +4,7 @@
 # Google Colab - Complete MVP
 # ============================================================
 
-# ------------------------------------------------------------
-# 1. INSTALL REQUIRED LIBRARIES
-# ------------------------------------------------------------
-
 !pip install -q gradio easyocr pillow
-
-
-# ------------------------------------------------------------
-# 2. IMPORT LIBRARIES
-# ------------------------------------------------------------
 
 import re
 import easyocr
@@ -21,11 +12,6 @@ import gradio as gr
 import numpy as np
 
 from PIL import Image
-
-
-# ------------------------------------------------------------
-# 3. START OCR ENGINE
-# ------------------------------------------------------------
 
 print("Starting ScamShield Bharat...")
 
@@ -37,9 +23,8 @@ reader = easyocr.Reader(
 print("✅ OCR engine ready")
 
 
-# ------------------------------------------------------------
-# 4. SCAM WARNING PATTERNS
-# ------------------------------------------------------------
+
+#  SCAM WARNING PATTERNS
 
 RED_FLAGS = {
 
@@ -116,9 +101,9 @@ RED_FLAGS = {
 }
 
 
-# ------------------------------------------------------------
-# 5. TEXT CLEANING
-# ------------------------------------------------------------
+
+#  TEXT CLEANING
+
 
 def clean_text(text):
 
@@ -133,9 +118,8 @@ def clean_text(text):
     return text.strip()
 
 
-# ------------------------------------------------------------
-# 6. SCAM ANALYSIS ENGINE
-# ------------------------------------------------------------
+#  SCAM ANALYSIS ENGINE
+
 
 def analyze_text(text):
 
@@ -176,12 +160,7 @@ def analyze_text(text):
         "flags": detected_flags,
         "count": count
     }
-
-
-# ------------------------------------------------------------
-# 7. MULTILINGUAL SAFETY CONTENT
-# ------------------------------------------------------------
-
+#  MULTILINGUAL SAFETY CONTENT
 LANGUAGES = {
 
     "English": {
@@ -286,11 +265,6 @@ LANGUAGES = {
     }
 }
 
-
-# ------------------------------------------------------------
-# 8. GENERATE MULTILINGUAL REPORT
-# ------------------------------------------------------------
-
 def generate_report(result, language):
 
     lang = LANGUAGES.get(
@@ -354,11 +328,9 @@ def generate_report(result, language):
 
 
     return output
+    
+#  MESSAGE SCANNER
 
-
-# ------------------------------------------------------------
-# 9. MESSAGE SCANNER
-# ------------------------------------------------------------
 
 def scan_message(message, language):
 
@@ -379,11 +351,6 @@ def scan_message(message, language):
 
 
     return report
-
-
-# ------------------------------------------------------------
-# 10. OCR - EXTRACT TEXT FROM SCREENSHOT
-# ------------------------------------------------------------
 
 def extract_text_from_image(image):
 
@@ -411,11 +378,6 @@ def extract_text_from_image(image):
     return "\n".join(
         extracted_text
     )
-
-
-# ------------------------------------------------------------
-# 11. SCREENSHOT SCANNER
-# ------------------------------------------------------------
 
 def analyze_screenshot(image, language):
 
@@ -462,11 +424,6 @@ def analyze_screenshot(image, language):
 
     return report
 
-
-# ------------------------------------------------------------
-# 12. SAMPLE MESSAGES FOR DEMO
-# ------------------------------------------------------------
-
 HIGH_RISK_EXAMPLE = """
 Congratulations! You have been selected for our VIP
 Investment Group.
@@ -505,18 +462,9 @@ the risks before making any financial decision.
 """
 
 
-# ------------------------------------------------------------
-# 13. CREATE GRADIO APPLICATION
-# ------------------------------------------------------------
-
 with gr.Blocks(
     title="ScamShield Bharat"
 ) as demo:
-
-
-    # --------------------------------------------------------
-    # HEADER
-    # --------------------------------------------------------
 
     gr.Markdown(
         """
@@ -539,11 +487,6 @@ with gr.Blocks(
         """
     )
 
-
-    # --------------------------------------------------------
-    # LANGUAGE SELECTOR
-    # --------------------------------------------------------
-
     language = gr.Dropdown(
 
         choices=[
@@ -558,16 +501,8 @@ with gr.Blocks(
     )
 
 
-    # --------------------------------------------------------
-    # TABS
-    # --------------------------------------------------------
-
     with gr.Tabs():
 
-
-        # ====================================================
-        # TAB 1 - MESSAGE SCANNER
-        # ====================================================
 
         with gr.Tab(
             "💬 Message Scanner"
@@ -651,11 +586,6 @@ with gr.Blocks(
                 label="🧪 Try Demo Messages"
             )
 
-
-        # ====================================================
-        # TAB 2 - SCREENSHOT SCANNER
-        # ====================================================
-
         with gr.Tab(
             "📷 Screenshot Scanner"
         ):
@@ -708,11 +638,6 @@ with gr.Blocks(
 
                 outputs=screenshot_output
             )
-
-
-        # ====================================================
-        # TAB 3 - SAFETY GUIDE
-        # ====================================================
 
         with gr.Tab(
             "🛡️ Safety Guide"
@@ -767,27 +692,21 @@ with gr.Blocks(
                 independently.
                 """
             )
-
-
-    # --------------------------------------------------------
-    # PRIVACY / GUARDRAILS
-    # --------------------------------------------------------
-
     gr.Markdown(
         """
         ---
 
-        ## 🔐 Privacy & Safety
+        ##  Privacy & Safety
 
         ScamShield Bharat is designed around
         data minimization.
 
-        ❌ No OTP collection
-        ❌ No UPI PIN collection
-        ❌ No banking password collection
-        ❌ No investment recommendations
-        ❌ No stock-price predictions
-        ❌ No buy/sell/hold recommendations
+         No OTP collection
+         No UPI PIN collection
+         No banking password collection
+         No investment recommendations
+         No stock-price predictions
+         No buy/sell/hold recommendations
 
         ### Our goal:
 
@@ -798,11 +717,6 @@ with gr.Blocks(
         prototype and is not a definitive fraud detector.
         """
     )
-
-
-# ------------------------------------------------------------
-# 14. LAUNCH APPLICATION
-# ------------------------------------------------------------
 
 print()
 print("=" * 60)
